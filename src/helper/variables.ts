@@ -1,0 +1,1 @@
+export const BASE_URL_DEV = 'https://52.90.12.51.nip.io/api'
