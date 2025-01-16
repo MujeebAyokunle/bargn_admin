@@ -14,7 +14,6 @@ export interface userState {
 const initialState: userState = {
     dashboardData: {
         mobile_insights: {},
-        redeemed_categories_total_percentage: {},
         redeemed_categories_total_percentage: {}
     },
     dashboardSales: [],
