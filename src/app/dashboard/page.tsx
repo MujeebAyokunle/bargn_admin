@@ -16,12 +16,8 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { FaChevronDown } from 'react-icons/fa6';
 import DashboardLineChart from '@/components/DashboardLineChart';
-import Image from 'next/image';
 import BarChart from '@/components/Barchart';
-import moment from 'moment';
-import { IoEllipsisVertical } from 'react-icons/io5';
 import { fetchDashboardData } from '@/lib/features/dashboardSlice';
-import { RootState } from '@/lib/store';
 import {
     Chart as ChartJS,
     Tooltip,
@@ -175,7 +171,7 @@ function Dashboard() {
     const device_type_pie = generateColorsAndDarkerVariants(2)
 
     const redeemed_pie_data = {
-        labels: [],
+        labels: dashboardData?.redeemed_categories_total_percentage ? Object.keys(dashboardData?.redeemed_categories_total_percentage) : [],
         // labels: dashboardData?.redeemed_categories_total_percentage ? Object.keys(dashboardData?.redeemed_categories_total_percentage) : [],
         datasets: [
             {
