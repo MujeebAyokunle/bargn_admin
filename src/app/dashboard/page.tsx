@@ -95,7 +95,7 @@ function sortDataByMonth(data: any) {
         'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'
     ];
 
-    const sortedArray = monthOrder.map(month => data[month]);
+    const sortedArray = monthOrder?.map(month => data?.[month]);
 
     return sortedArray;
 }
