@@ -77,7 +77,7 @@ const BarChart = ({ data1 = [], data1_label, data2 = [], data2_label }: any) => 
     };
 
     return (
-        <div style={{ width: "100%", height: 400, margin: "0 auto" }}>
+        <div style={{ width: "100%", height: "auto", margin: "0 auto" }}>
             <Bar data={data} options={options} />
         </div>
     );

@@ -171,7 +171,7 @@ function Dashboard() {
         }
     ]
 
-    const redeem_pie = generateColorsAndDarkerVariants(Object.keys(dashboardData?.redeemed_categories_total_percentage)?.length)
+    const redeem_pie: any = dashboardData ? generateColorsAndDarkerVariants(Object.keys(dashboardData?.redeemed_categories_total_percentage)?.length) : {}
     const device_type_pie = generateColorsAndDarkerVariants(2)
 
     const redeemed_pie_data = {
@@ -210,7 +210,7 @@ function Dashboard() {
 
 
 
-    const mobile_insights = Object.keys(dashboardData?.mobile_insights).map(category => {
+    const mobile_insights = dashboardData?.mobile_insights ? Object.keys(dashboardData?.mobile_insights).map(category => {
         const data = dashboardData?.mobile_insights[category].map((item: any) => item.totalCount || 0); // Use 0 if no totalCount available
 
         const colorWithAlpha = getRandomColorWithAlpha()
@@ -223,7 +223,7 @@ function Dashboard() {
             tension: 0.4,
             fill: true,
         };
-    });
+    }) : []
 
     return (
         <Nav>
@@ -295,7 +295,7 @@ function Dashboard() {
 
                             </div>
 
-                            <div className='my-6 flex h-[400px] w-full justify-center items-center'>
+                            <div className='my-6 flex h-auto w-full justify-center items-center'>
                                 {/* <p className='text-black'>chart</p> */}
                                 <DashboardLineChart mobile_insights={mobile_insights} />
                             </div>
