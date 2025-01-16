@@ -12,7 +12,11 @@ export interface userState {
 
 // Define the initial state using that type
 const initialState: userState = {
-    dashboardData: {},
+    dashboardData: {
+        mobile_insights: {},
+        redeemed_categories_total_percentage: {},
+        redeemed_categories_total_percentage: {}
+    },
     dashboardSales: [],
     loading: false,
     loadingMore: false

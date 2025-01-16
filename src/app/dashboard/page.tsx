@@ -167,12 +167,11 @@ function Dashboard() {
         }
     ]
 
-    const redeem_pie: any = dashboardData ? generateColorsAndDarkerVariants(Object.keys(dashboardData?.redeemed_categories_total_percentage)?.length) : {}
+    const redeem_pie: any = dashboardData?.redeemed_categories_total_percentage ? generateColorsAndDarkerVariants(Object.keys(dashboardData?.redeemed_categories_total_percentage)?.length) : {}
     const device_type_pie = generateColorsAndDarkerVariants(2)
 
     const redeemed_pie_data = {
-        labels: dashboardData?.redeemed_categories_total_percentage ? Object.keys(dashboardData?.redeemed_categories_total_percentage) : [],
-        // labels: dashboardData?.redeemed_categories_total_percentage ? Object.keys(dashboardData?.redeemed_categories_total_percentage) : [],
+        labels: dashboardData?.redeemed_categories_total_percentage ? Object.keys(dashboardData?.redeemed_categories_total_percentage) : {},
         datasets: [
             {
                 data: dashboardData?.redeemed_categories_total_percentage
@@ -318,7 +317,7 @@ function Dashboard() {
                                         <p className='text-[#165BAA] font-normal text-[28px]' >{dashboardData?.total_redeemed_count || 0}</p>
 
                                         <div className='-mt-4' >
-                                            <Doughnut data={redeemed_pie_data} options={options_dough as any} />
+                                            <Doughnut data={redeemed_pie_data as any} options={options_dough as any} />
                                         </div>
                                     </div>
                                 </div>
