@@ -117,10 +117,10 @@ function Nav({ children }: NavProps) {
                         <div>
 
                             <ul className="mt-2 space-y-3">
-                                <li onClick={() => navigateFunc("/deals")} className={`flex justify-between items-center text-gray-700 px-3 py-2 w-full hover:text-black cursor-pointer ${pathName.includes("deals") && "nav_active"}`}>
+                                <li onClick={() => navigateFunc("/business")} className={`flex justify-between items-center text-gray-700 px-3 py-2 w-full hover:text-black cursor-pointer ${pathName.includes("business") && "nav_active"}`}>
                                     <div className='flex text-[14px] items-center'>
                                         <BriefCase />
-                                        <span className='ms-2'>Merchants</span>
+                                        <span className='ms-2'>Businesses</span>
                                     </div>
 
                                     {
