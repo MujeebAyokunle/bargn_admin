@@ -145,3 +145,39 @@ export const fetchUserActivityApi = async (json: { userId: string, fromDate: str
         cb(error?.response?.data || { error: true, message: "An error occured" })
     }
 }
+
+export const fetchBusinessesApi = async (json: { pageNumber: number, search_text?: string, subscription_date?: string, registration_date?: string, status?: string }, cb: (param: any) => void) => {
+    try {
+        const token = localStorage.getItem("authToken");
+
+        const response = await axiosInstance.get("/admin/business", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params: json
+        })
+
+        cb(response?.data)
+    } catch (error: any) {
+        console.log("fetch user activity error", error.message)
+        cb(error?.response?.data || { error: true, message: "An error occured" })
+    }
+}
+
+export const fetchBusinessesDetailsApi = async (json: { business_id: string }, cb: (param: any) => void) => {
+    try {
+        const token = localStorage.getItem("authToken");
+
+        const response = await axiosInstance.get("/admin/business/detail", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params: json
+        })
+
+        cb(response?.data)
+    } catch (error: any) {
+        console.log("fetch user activity error", error.message)
+        cb(error?.response?.data || { error: true, message: "An error occured" })
+    }
+}

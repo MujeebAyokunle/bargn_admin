@@ -1,10 +1,11 @@
 "use client";
+import { fetchBusinessesApi } from '@/apis';
 import Nav from '@/components/Nav'
 import { ExportIcon } from '@/components/Svgs/icons';
 import { getPages } from '@/helper/functions';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { IoIosSearch } from 'react-icons/io'
 import { IoEllipsisVertical } from 'react-icons/io5';
@@ -19,10 +20,28 @@ function Business() {
     const [subscriptionDate, setSubscriptionDate] = useState<any>(null)
     const [pageNumber, setPageNumber] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
-    const [users, setUsers] = useState([])
+    const [businesses, setBusinesses] = useState([])
 
     const onPageChange = (page: number) => {
         setPageNumber(page)
+    }
+
+    useEffect(() => {
+        initialize()
+    }, [pageNumber])
+
+    const initialize = () => {
+        let params = {
+            pageNumber
+        }
+
+        fetchBusinessesApi(params, response => {
+            console.log({ response })
+            if (!response?.error) {
+                setBusinesses(response?.businesses)
+                setTotalPages(response?.totalPages)
+            }
+        })
     }
 
     return (
@@ -80,7 +99,7 @@ function Business() {
                 </div>
 
                 {/* table */}
-                <div className='p-4 border mt-8 bg-white border-[#D9D9D9] rounded-lg'>
+                <div className='p-4 border mt-8 overflow-x-scroll bg-white border-[#D9D9D9] rounded-lg'>
                     <div className='py-2 border-b flex items-center w-full justify-between' >
                         <div>
                             {["All", "Active", "Pending", "Deactivate"].map((tab, index) => (
@@ -103,15 +122,12 @@ function Business() {
                         <thead>
                             <tr className="border-b">
                                 <th className="p-2 ps-6 text-sm font-medium text-gray-700">Business Name</th>
-                                <th className="p-2 text-sm font-medium text-gray-700">Email</th>
+                                <th className="p-2 text-sm font-medium text-gray-700">Business Email</th>
                                 <th className="p-2 text-sm font-medium text-gray-700">
                                     Business Category
                                 </th>
                                 <th className="p-2 text-sm font-medium text-gray-700">
                                     Business ID
-                                </th>
-                                <th className="p-2 text-sm font-medium text-gray-700">
-                                    Business Email
                                 </th>
                                 <th className="p-2 text-sm font-medium text-gray-700">Phone Number</th>
                                 <th className="p-2 text-sm font-medium text-gray-700">Status</th>
@@ -120,27 +136,27 @@ function Business() {
                         </thead>
                         <tbody>
                             {
-                                users?.length > 0 && (
+                                businesses?.length > 0 && (
                                     <>
-                                        {users.map((user: any, index) => (
+                                        {businesses.map((user: any, index) => (
                                             <tr
                                                 key={index}
-                                                onClick={() => { router.push(`/users/${user?.id}`) }}
+                                                onClick={() => { router.push(`/business/${user?.business_id}`) }}
                                                 className="border-b hover:bg-gray-50 transition cursor-pointer duration-150"
                                             >
                                                 <td className="p-4 flex items-center space-x-4">
 
                                                     <img src={user?.profile_picture || "https://via.placeholder.com/150"} className="bg-blue-200" style={{ borderRadius: 20, height: 40, width: 40, objectFit: "cover" }} />
                                                     <span className="text-sm font-medium text-[#111827]">
-                                                        {user.name}
+                                                        {user.business_name}
                                                     </span>
                                                 </td>
-                                                <td className="p-4 text-sm text-[#111827]">{user.email}</td>
-                                                <td className="p-4 text-sm text-[#111827]">{user.phone_number}</td>
+                                                <td className="p-4 text-sm text-[#111827]">{user.business_email}</td>
+                                                <td className="p-4 text-sm text-[#111827]">{user.business_category}</td>
+                                                <td className="p-4 text-sm text-[#111827]">{user.business_id}</td>
+                                                <td className="p-4 text-sm text-[#111827]">{user?.phone_number}</td>
                                                 <td className="p-4 text-sm text-[#111827]">{user.status}</td>
                                                 <td className="p-4 text-sm text-[#111827]">{user.createdAt ? moment(user.createdAt).local().format('D MMMM YYYY') : ""}</td>
-                                                <td className="p-4 text-sm text-[#111827]">{user?.mydeals?.[0]?.createdAt ? moment(user?.mydeals?.[0]?.createdAt).local().format('D MMMM YYYY') : "None"}</td>
-                                                <td className="p-4 text-sm text-[#111827]">{user.app_version}</td>
                                             </tr>
                                         ))}
                                     </>

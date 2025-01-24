@@ -208,19 +208,19 @@ function Nav({ children }: NavProps) {
                                 <ChartIcon />
                                 <span>Analytics</span>
                             </li>
-                            <li className="flex px-3 py-2  text-[14px] items-center space-x-2 text-gray-700 hover:text-black">
+                            {/* <li className="flex px-3 py-2  text-[14px] items-center space-x-2 text-gray-700 hover:text-black">
                                 <PaymentCardIcon />
                                 <span>Revenue</span>
-                            </li>
+                            </li> */}
                         </ul>
 
                         <div className="border-t pt-4">
                             <ul className="space-y-4">
 
-                                <li className="flex text-[14px] items-center space-x-3 text-gray-700 hover:text-black">
+                                {/* <li className="flex text-[14px] items-center space-x-3 text-gray-700 hover:text-black">
                                     <CommunityIcon />
                                     <span>Roles & Permissions</span>
-                                </li>
+                                </li> */}
                                 <li className="flex text-[14px] items-center space-x-3 text-gray-700 hover:text-black">
                                     <HelpPolygon />
                                     <span>Help & Support</span>

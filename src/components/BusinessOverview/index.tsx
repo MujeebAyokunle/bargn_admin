@@ -1,11 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa6'
 import DoubleLineChart from '../DoubleLineChart'
 import SingleLineChart from '../SingleLineChart'
 import { StarIcon } from '../Svgs/icons'
 import { SlOptionsVertical } from 'react-icons/sl'
+import { toTitleCase } from '@/helper/functions'
 
-function BusinessOverview() {
+function BusinessOverview({ businessDetails, listedDeals = 0, redemptions, businessOffers = [] }: any) {
+
+    const [images, setImages] = useState([])
+
+    useEffect(() => {
+        let extracted_images = businessDetails.images
+        if (extracted_images) {
+            let parsed_images = JSON.parse(extracted_images)
+            setImages(parsed_images)
+        }
+    }, [businessDetails])
+
     return (
         <div>
             <div className='mt-12' >
@@ -15,14 +27,14 @@ function BusinessOverview() {
                     <div className='flex items-center justify-between w-full' >
                         <div>
                             <div className='flex items-center space-x-4' >
-                                <p className='font-semibold text-[32px] text-[#404040]' >Hideout Villas</p>
+                                <p className='font-semibold text-[32px] text-[#404040]' >{businessDetails?.business_name || ""}</p>
 
                                 <SlOptionsVertical color='black' size={16} />
                             </div>
                             <div>
                                 <div className='flex items-center space-x-3 flex-wrap' >
                                     <div className='bg-[#0470AF26] px-[8px] py-[2px] rounded-full' >
-                                        <p className='text-[#0470AF] font-medium text-[12px]' >Travel & hotels</p>
+                                        <p className='text-[#0470AF] font-medium text-[12px]' >{businessDetails?.business_category}</p>
                                     </div>
 
                                     <div className='bg-[#AF048126] px-[8px] py-[2px] rounded-full'>
@@ -31,7 +43,7 @@ function BusinessOverview() {
 
                                     <div className='bg-[#F0FDF4] px-[8px] py-[2px] rounded-full flex items-center space-x-1'>
                                         <div className='h-[6px] w-[6px] rounded-full bg-[#22C55E]' />
-                                        <p className='text-[#22C55E] font-medium text-[12px]' >Approved</p>
+                                        <p className='text-[#22C55E] font-medium text-[12px]' >{toTitleCase(businessDetails?.status || "")}</p>
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +57,7 @@ function BusinessOverview() {
                                 </div>
                                 <div>
                                     <p className='text-[#1E1E1E] font-medium text-[15px]' >Listed Deals</p>
-                                    <p className='font-medium text-[15px] text-[#757575]' >1/3</p>
+                                    <p className='font-medium text-[15px] text-[#757575]' >{listedDeals}</p>
                                 </div>
                             </div>
 
@@ -78,7 +90,7 @@ function BusinessOverview() {
 
                                 <div>
                                     <p className='text-[#1E1E1E] font-medium text-[15px]' >Redemptions </p>
-                                    <p className='font-medium text-[15px] text-[#757575]' >56</p>
+                                    <p className='font-medium text-[15px] text-[#757575]' >{redemptions || 0}</p>
                                 </div>
                             </div>
                         </div>
@@ -89,32 +101,32 @@ function BusinessOverview() {
                 <div className='flex items-start space-x-6 mt-12' >
                     <div className='w-1/2' >
                         <div>
-                            <p className='text-[#7B809A] font-normal text-base' >Radisson Blu Seaside Hotel, Helsinki is located in a trendy area near the lively Länsisatama. The core center can be easily reached by tram or on foot. There are both comfortable Standard rooms and stylish suites to choose from. Guests can also use saunas and a modern gym. Taste local delicacies at our on-site restaurant, Bistro Gimis, and start the morning with a treat at our Super Breakfast buffet. Warm and hospitable service is a matter of honor for us. We have both Green Key and Sustainable Travel Finland certificates, which prove our investment in sustainable tourism and the environment.</p>
+                            <p className='text-[#7B809A] font-normal text-base' >{businessDetails?.about || ""}</p>
                         </div>
                         <div className='mt-8 flex items-start justify-between space-x-2' >
                             <div className='space-y-4' >
                                 {/* mobile number */}
                                 <div className='flex items-center space-x-2' >
                                     <p className='text-[#344767] font-bold text-sm' >Mobile:</p>
-                                    <p className='text-[#7B809A] font-medium text-sm'>+234 8106673218</p>
+                                    <p className='text-[#7B809A] font-medium text-sm'>+{businessDetails?.phone_number}</p>
                                 </div>
 
                                 {/* business ID */}
                                 <div className='flex items-center space-x-2' >
                                     <p className='text-[#344767] font-bold text-sm' >Business ID:</p>
-                                    <p className='text-[#7B809A] font-medium text-sm'>1234567-8 </p>
+                                    <p className='text-[#7B809A] font-medium text-sm'>{businessDetails?.business_id} </p>
                                 </div>
 
                                 {/* Email */}
                                 <div className='flex items-center space-x-2' >
                                     <p className='text-[#344767] font-bold text-sm' >Email:</p>
-                                    <p className='text-[#7B809A] font-medium text-sm'>dontmailme@mail.com </p>
+                                    <p className='text-[#7B809A] font-medium text-sm'>{businessDetails?.business_email} </p>
                                 </div>
 
                                 {/* Website */}
                                 <div className='flex items-center space-x-2' >
                                     <p className='text-[#344767] font-bold text-sm' >Website:</p>
-                                    <p className='text-[#7B809A] font-medium text-sm'>https://hideoutvillas.com/ </p>
+                                    <p className='text-[#7B809A] font-medium text-sm'>{businessDetails?.website} </p>
                                 </div>
                             </div>
 
@@ -122,19 +134,19 @@ function BusinessOverview() {
                                 {/* Street address */}
                                 <div className='flex items-center space-x-2' >
                                     <p className='text-[#344767] font-bold text-sm' >Street Address:</p>
-                                    <p className='text-[#7B809A] font-medium text-sm'> Meritullinkatu 33, 00170 Helsinki</p>
+                                    <p className='text-[#7B809A] font-medium text-sm'> {businessDetails?.street_address}</p>
                                 </div>
 
                                 {/* City/State/Country: */}
                                 <div className='flex items-center space-x-2' >
                                     <p className='text-[#344767] font-bold text-sm' >City/State/Country:</p>
-                                    <p className='text-[#7B809A] font-medium text-sm'>Helsinki, Finland </p>
+                                    <p className='text-[#7B809A] font-medium text-sm'>{`${businessDetails?.city}, ${businessDetails?.state}, ${businessDetails?.country}`} </p>
                                 </div>
 
                                 {/* Postal Code:  */}
                                 <div className='flex items-center space-x-2' >
                                     <p className='text-[#344767] font-bold text-sm' >Postal Code: </p>
-                                    <p className='text-[#7B809A] font-medium text-sm'>00170 </p>
+                                    <p className='text-[#7B809A] font-medium text-sm'>{businessDetails?.postal_code} </p>
                                 </div>
 
                                 {/* Social: */}
@@ -154,10 +166,11 @@ function BusinessOverview() {
                     </div>
 
                     <div className='w-1/2 grid grid-cols-2 gap-6' >
-                        <img src="/images/image1.png" alt="image1" className='w-full h-[150px] rounded-lg' />
-                        <img src="/images/image2.png" alt="image2" className='w-full h-[150px] rounded-lg' />
-                        <img src="/images/image3.png" alt="image3" className='w-full h-[150px] rounded-lg' />
-                        <img src="/images/image4.png" alt="image4" className='w-full h-[150px] rounded-lg' />
+                        {
+                            images?.map((image, index) => (
+                                <img key={index} src={image} alt={`image-${index}`} className='w-full h-[150px] rounded-lg' />
+                            ))
+                        }
                     </div>
                 </div>
             </div>
@@ -197,7 +210,20 @@ function BusinessOverview() {
                         </tr>
                     </thead>
                     <tbody>
-
+                        {
+                            businessOffers?.map((offer: any, index: number) => (
+                                <tr key={index}>
+                                    <td className="p-2 text-black border-b">{offer.id}</td>
+                                    <td className="p-2 text-black border-b">{offer.listed_deals}</td>
+                                    <td className="p-2 text-black border-b">{offer.offer_available}</td>
+                                    <td className="p-2 text-black border-b">{offer.redemptions}</td>
+                                    <td className="p-2 text-black border-b">{offer.price}</td>
+                                    <td className="p-2 text-black border-b">{offer.offer_expiration}</td>
+                                    <td className="p-2 text-black border-b">{offer.status}</td>
+                                    <td className="p-2 text-black border-b">{offer.approval}</td>
+                                </tr>
+                            ))
+                        }
                     </tbody>
                 </table>
             </div>
