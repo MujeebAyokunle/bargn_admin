@@ -1,9 +1,10 @@
+import { fetchUserActivityApi } from '@/apis'
 import { getPages } from '@/helper/functions'
 import moment from 'moment'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 
-function BusinessActivityLog() {
+function BusinessActivityLog({ email }: { email: string }) {
 
     const [pageNumber, setPageNumber] = useState(1)
 
@@ -15,7 +16,30 @@ function BusinessActivityLog() {
         setPageNumber(page)
     }
 
-    const activities: any = []
+    const [activities, setActivities] = useState<any>([])
+
+    useEffect(() => {
+        initialize()
+    }, [pageNumber, fromDate, toDate])
+
+    const initialize = async () => {
+        const params = {
+            userId: email,
+            fromDate,
+            toDate,
+            page: pageNumber
+        }
+
+        fetchUserActivityApi(params, response => {
+            console.log({ response })
+            if (!response.error) {
+
+                setPageNumber(response?.page)
+                setTotalPages(response?.totalPages)
+                setActivities(response?.events)
+            }
+        })
+    }
 
     return (
         <div>

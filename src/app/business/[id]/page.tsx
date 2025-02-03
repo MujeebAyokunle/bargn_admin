@@ -1,11 +1,12 @@
 "use client"
-import { fetchBusinessesDetailsApi } from '@/apis'
+import { fetchBusinessesDetailsApi, flagBusinessApi } from '@/apis'
 import ActivityLoader from '@/components/ActivityLoader'
 import BusinessActivityLog from '@/components/BusinessActivityLog'
 import BusinessOverview from '@/components/BusinessOverview'
 import DealRedemption from '@/components/DealRedemption'
 import Nav from '@/components/Nav'
 import { FlagIcon } from '@/components/Svgs/icons'
+import { errorToast, successToast } from '@/helper/functions'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
@@ -22,22 +23,49 @@ function BusinessDetails() {
 
     const [businessDetails, setBusinessDetails] = useState<any>({})
     const [businessOffers, setBusinessOffers] = useState<any>([])
+    const [thisWeekDeals, setThisWeekDeals] = useState<Array<number>>([0, 0, 0, 0, 0, 0, 0])
+    const [lastWeekDeals, setLastWeekDeals] = useState<Array<number>>([0, 0, 0, 0, 0, 0, 0])
+    const [monthlyRevenue, setMonthlyRevenue] = useState<any>({ "jan": 0, "feb": 0, "mar": 0, "apr": 0, "may": 0, "jun": 0, "jul": 0, "aug": 0, "sep": 0, "oct": 0, "nov": 0, "dec": 0 })
 
     useEffect(() => {
-        console.log({ id })
+
         initialize()
     }, [])
 
     const initialize = async () => {
         fetchBusinessesDetailsApi({ business_id: id }, (response: any) => {
-            console.log({ response });
+
             if (!response?.error) {
                 setBusinessDetails(response?.business)
                 setBusinessOffers(response?.business_offers)
                 setRedemptions(response?.redemptions)
                 setThisWeekDealsNo(response?.thisWeekDealsNo)
                 setListedDeals(response?.listedDeals)
+                setMonthlyRevenue(response?.monthlyRevenue)
+                setThisWeekDeals(response?.thisWeekdDealsPerDay)
+                setLastWeekDeals(response?.lastWeekdDealsPerDay)
+            }
+        })
+    }
 
+    const flagBusiness = (status: string) => {
+        setLoading(true)
+        let body = {
+            business_id: businessDetails?.business_id || "",
+            status
+        }
+        flagBusinessApi(body, response => {
+            setLoading(false)
+
+            if (!response?.error) {
+                successToast(response?.message)
+                setBusinessDetails(() => {
+                    const updatedDetails = { ...businessDetails }
+                    updatedDetails.status = status
+                    return updatedDetails
+                })
+            } else {
+                errorToast(response?.message)
             }
         })
     }
@@ -55,7 +83,7 @@ function BusinessDetails() {
                     </div>
 
                     {/* flag account */}
-                    <button className='bg-[#EF4444] border border-[#DC2626] rounded-md py-1 px-3 text-white font-medium text-base flex items-center justify-center space-x-1' >
+                    <button onClick={() => flagBusiness(businessDetails?.status == "blocked" ? "approved" : "blocked")} className='bg-[#EF4444] border border-[#DC2626] rounded-md py-1 px-3 text-white font-medium text-base flex items-center justify-center space-x-1' >
                         <FlagIcon />
                         {
                             loading ? <ActivityLoader /> : businessDetails?.status == "blocked" ? "Unflag Account" : "Flag Account"
@@ -65,11 +93,11 @@ function BusinessDetails() {
 
                 {
                     activeTab == "business overview" ? (
-                        <BusinessOverview businessOffers={businessOffers} listedDeals={listedDeals} businessDetails={businessDetails} redemptions={redemptions} />
+                        <BusinessOverview thisWeekDeals={thisWeekDeals} lastWeekDeals={lastWeekDeals} businessOffers={businessOffers} listedDeals={listedDeals} businessDetails={businessDetails} redemptions={redemptions} monthlyRevenue={monthlyRevenue} />
                     ) : activeTab == "deal redemption" ? (
                         <DealRedemption />
                     ) : (
-                        <BusinessActivityLog />
+                        <BusinessActivityLog email={businessDetails?.email || ""} />
                     )
                 }
 

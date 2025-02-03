@@ -1,12 +1,12 @@
 import { Line } from "react-chartjs-2";
 
-const SingleLineChart = () => {
+const SingleLineChart = ({ monthlyRevenue }: any) => {
     const data = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         datasets: [
             {
                 label: 'Redemptions',
-                data: [30, 40, 60, 80, 100, 70, 50, 40, 30, 50, 60, 70],
+                data: [monthlyRevenue?.jan, monthlyRevenue?.feb, monthlyRevenue?.mar, monthlyRevenue?.apr, monthlyRevenue?.may, monthlyRevenue?.jun, monthlyRevenue?.jul, monthlyRevenue?.aug, monthlyRevenue?.sep, monthlyRevenue?.oct, monthlyRevenue?.nov, monthlyRevenue?.dec],
                 borderColor: '#4C84D4',
                 backgroundColor: (context: any) => {
                     const gradient = context.chart.ctx.createLinearGradient(0, 0, 0, context.chart.height);

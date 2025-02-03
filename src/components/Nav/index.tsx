@@ -18,7 +18,7 @@ import { MdOutlineMail } from 'react-icons/md';
 import { SlLock } from 'react-icons/sl';
 import Logo from "../../../public/images/logo.svg"
 // import { useAppSelector } from '@/lib/hooks';
-import { toTitleCase } from '@/helper/functions';
+import { toTitleCase, truncateString } from '@/helper/functions';
 import { useAppSelector } from '@/lib/hooks';
 
 
@@ -200,7 +200,7 @@ function Nav({ children }: NavProps) {
                         </div>
 
                         <ul className="space-y-1">
-                            <li className="flex px-3 py-2 items-center space-x-2 text-gray-700 text-[14px] hover:text-black">
+                            <li onClick={() => navigateFunc("/management")} className={`flex px-3 py-2 items-center cursor-pointer space-x-2 text-gray-700 text-[14px] hover:text-black ${pathName.includes("management") && "nav_active"}`}>
                                 <MobilePhone />
                                 <span>App Management</span>
                             </li>
@@ -217,11 +217,11 @@ function Nav({ children }: NavProps) {
                         <div className="border-t pt-4">
                             <ul className="space-y-4">
 
-                                {/* <li className="flex text-[14px] items-center space-x-3 text-gray-700 hover:text-black">
+                                <li onClick={() => navigateFunc("/roles")} className={`flex text-[14px] items-center cursor-pointer  px-3 py-2 space-x-3 text-gray-700 hover:text-black ${pathName.includes("roles") && "nav_active"}`}>
                                     <CommunityIcon />
                                     <span>Roles & Permissions</span>
-                                </li> */}
-                                <li className="flex text-[14px] items-center space-x-3 text-gray-700 hover:text-black">
+                                </li>
+                                <li onClick={() => navigateFunc("/support")} className="flex cursor-pointer text-[14px] items-center space-x-3 text-gray-700 hover:text-black">
                                     <HelpPolygon />
                                     <span>Help & Support</span>
                                 </li>
@@ -268,10 +268,10 @@ function Nav({ children }: NavProps) {
                         <div onClick={() => setOpenOptions(prev => !prev)} className='flex items-center space-x-3 cursor-pointer'>
                             {
                                 userData?.profile_picture &&
-                                <img src={userData?.profile_picture} style={{ borderRadius: 17.5, width: 35, height: 35 }} alt='Profile_image' className='rounded-full ms-3' />
+                                <img src={userData?.profile_picture} style={{ borderRadius: 17.5, width: 35, height: 35 }} alt='Profile_image' className='ms-3' />
                             }
                             <div>
-                                <p className='text-[13px] text-[#404040] font-semibold -mb-1 leading-tight'>{userData?.email}</p>
+                                <p className='text-[13px] text-[#404040] font-semibold -mb-1 leading-tight'>{truncateString(10, userData?.email)}</p>
                                 <p className='text-[12px] text-[#565656] font-medium'>Admin</p>
                             </div>
 

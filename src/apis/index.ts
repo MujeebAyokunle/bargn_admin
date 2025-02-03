@@ -74,6 +74,32 @@ export const fetchUsersApi = async (params: { pageNumber: number, search_text?: 
     }
 }
 
+export const ExportUsersApi = async (params: { search_text?: string, registration_date?: string, subscription_date?: string, status?: string }, cb: (param: any) => void) => {
+    try {
+        const token = localStorage.getItem("authToken");
+
+        const response = await axiosInstance.get("/admin/users/export", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params,
+            responseType: 'blob'
+        })
+
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "data.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+    } catch (error: any) {
+        console.log("fetch users error", error.message)
+        cb(error?.response?.data || { error: true, message: "An error occured" })
+    }
+}
+
 export const fetchUserDeatailsApi = async (params: { user_id: any }, cb: (param: any) => void) => {
     try {
         const token = localStorage.getItem("authToken");
@@ -97,6 +123,24 @@ export const flagUserApi = async (json: { user_id: number, status: string }, cb:
         const token = localStorage.getItem("authToken");
 
         const response = await axiosInstance.put("/admin/user/flag", json, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+
+        cb(response?.data)
+    } catch (error: any) {
+        console.log("flag user error", error.message)
+        cb(error?.response?.data || { error: true, message: "An error occured" })
+    }
+}
+
+export const flagBusinessApi = async (json: { business_id: string, status: string }, cb: (param: any) => void) => {
+    try {
+        const token = localStorage.getItem("authToken");
+
+        const response = await axiosInstance.put("/admin/merchant/flag", json, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -159,7 +203,32 @@ export const fetchBusinessesApi = async (json: { pageNumber: number, search_text
 
         cb(response?.data)
     } catch (error: any) {
-        console.log("fetch user activity error", error.message)
+        console.log("fetch businesses error", error.message)
+        cb(error?.response?.data || { error: true, message: "An error occured" })
+    }
+}
+
+export const ExportBusinessesApi = async (json: { search_text?: string, subscription_date?: string, registration_date?: string, status?: string }, cb: (param: any) => void) => {
+    try {
+        const token = localStorage.getItem("authToken");
+
+        const response = await axiosInstance.get("/admin/business/export", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params: json,
+            responseType: "blob",
+        })
+
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "data.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } catch (error: any) {
+        console.log("fetch businesses error", error.message)
         cb(error?.response?.data || { error: true, message: "An error occured" })
     }
 }
@@ -177,7 +246,230 @@ export const fetchBusinessesDetailsApi = async (json: { business_id: string }, c
 
         cb(response?.data)
     } catch (error: any) {
-        console.log("fetch user activity error", error.message)
+        console.log("fetch business details error", error.message)
         cb(error?.response?.data || { error: true, message: "An error occured" })
     }
+}
+
+export const fetchBusinessesRedeemedDealsApi = async (json: { business_id: string }, cb: (param: any) => void) => {
+    try {
+        const token = localStorage.getItem("authToken");
+
+        const response = await axiosInstance.get("/admin/business/deal_redemptions", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params: json
+        })
+
+        cb(response?.data)
+    } catch (error: any) {
+        console.log("fetch business redeemed deal error", error.message)
+        cb(error?.response?.data || { error: true, message: "An error occured" })
+    }
+}
+
+export const getCoordinateApi = async (place_id: string, cb: (param: any) => void) => {
+    try {
+        const response = await axiosInstance.post("/business/coordinate", {
+            place_id
+        })
+
+        cb(response?.data || response)
+    } catch (error: any) {
+        console.log("get coordinate error", error.message)
+        return {
+            error: true,
+            message: error?.response?.data
+        }
+    }
+}
+
+export const fetchDealDraftApi = async (cb: (param: any) => void) => {
+    try {
+        const token = localStorage.getItem("authToken");
+        const response = await axiosInstance.get("/admin/deals/draft", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        cb(response?.data || response)
+    } catch (error: any) {
+        console.log("error", error?.response?.data)
+        cb(error.response.data)
+    }
+}
+
+export const fetchDealsApi = async (json: { page_number: number, status: string }, cb: (param: any) => void) => {
+    try {
+        const token = localStorage.getItem("authToken");
+        const response = await axiosInstance.get("/admin/deals", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params: json
+        })
+
+        cb(response?.data || response)
+    } catch (error: any) {
+        console.log("error", error?.response?.data)
+        cb(error.response.data)
+    }
+}
+
+export const ExportDealsApi = async (json: { status: string }, cb: (param: any) => void) => {
+    try {
+        const token = localStorage.getItem("authToken");
+        const response = await axiosInstance.get("/admin/deal/export", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params: json,
+            responseType: "blob"
+        })
+
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "data.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } catch (error: any) {
+        console.log("error", error?.response?.data)
+        cb(error.response.data)
+    }
+}
+
+export const FetchRolesNPermissionsApi = async (json: { pageNumber: number, status: string }, cb: (param: any) => void) => {
+    try {
+        const token = localStorage.getItem("authToken");
+        const response = await axiosInstance.get("/admin", {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params: json
+        })
+
+        cb(response?.data || response);
+    } catch (error: any) {
+        console.log("error", error?.response?.data)
+        cb(error.response.data)
+    }
+}
+
+export const InviteAdminApi = async (json: { email: string, role: string }, cb: (param: any) => void) => {
+    try {
+        const token = localStorage.getItem("authToken");
+        const response = await axiosInstance.post("/admin/invite", json, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        cb(response?.data || response);
+    } catch (error: any) {
+        console.log("error", error?.response?.data)
+        cb(error.response.data)
+    }
+}
+
+export const DeleteAdmin = async (id: number, cb: (param: any) => void) => {
+    try {
+        const token = localStorage.getItem("authToken");
+        const response = await axiosInstance.delete(`/admin/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        cb(response?.data || response);
+    } catch (error: any) {
+        console.log(error.message)
+        cb(error.response.data)
+    }
+}
+
+export const AcceptAdminInviteApi = async (FormData: any, cb: (param: any) => void) => {
+    try {
+        const token = localStorage.getItem("authToken");
+        const response = await axiosInstance.post(`/admin/invite/accept`, FormData, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        cb(response?.data || response);
+    } catch (error: any) {
+        console.log(error.message)
+        cb(error.response.data)
+    }
+}
+
+export const FetchAdminApi = async (params: any, cb: (param: any) => void) => {
+    try {
+        const token = localStorage.getItem("authToken");
+        const response = await axiosInstance.get(`/fetchadmin`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params
+        })
+
+        cb(response?.data || response);
+    } catch (error: any) {
+        console.log(error.message)
+        cb(error.response.data)
+    }
+}
+
+export const FetchAppCategories = (cb: (response?: any) => void) => {
+
+    axiosInstance
+        .get(`${BASE_URL_DEV}/categories`)
+        .then((response) => {
+            cb(response.data);
+        })
+        .catch((error) => {
+            console.error(error);
+            cb(error.response?.data);
+        });
+}
+
+export const UpdateAppSegment = (json: any, cb: (response: any) => void) => {
+    const token = localStorage.getItem("authToken");
+
+    axiosInstance
+        .put(`${BASE_URL_DEV}/admin/appsegments`, json, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        .then((response) => {
+            cb(response.data);
+        })
+        .catch((error) => {
+            console.error(error);
+            cb(error.response?.data);
+        });
+}
+
+export const fetchChatsApi = (json: any, cb: (response: any) => void) => {
+    const token = localStorage.getItem("authToken");
+
+    axiosInstance
+        .get(`${BASE_URL_DEV}/admin/chats`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            params: json
+        })
+        .then((response) => {
+            cb(response.data);
+        })
+        .catch((error) => {
+            console.error(error);
+            cb(error.response?.data);
+        });
 }

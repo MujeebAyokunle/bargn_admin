@@ -3,10 +3,12 @@ import businessReducer from './features/businessSlice'
 import persistReducer from 'redux-persist/es/persistReducer';
 import dashboardReducer from './features/dashboardSlice';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
+import chatReducer from './features/chatUser';
 
 const rootReducer = combineReducers({
     business: businessReducer,
-    dashboard: dashboardReducer
+    dashboard: dashboardReducer,
+    chatUser: chatReducer,
 });
 
 const createNoopStorage = () => {

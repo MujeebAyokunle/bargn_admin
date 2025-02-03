@@ -147,3 +147,12 @@ function hexToRgba(hex: any, alpha: any) {
     // Return the RGBA format string
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
+
+
+export function truncateString(maxLength: number, str: string): string {
+    if (!str) return "";
+    if (str.length > maxLength) {
+        return str.slice(0, maxLength) + '...';
+    }
+    return str;
+}

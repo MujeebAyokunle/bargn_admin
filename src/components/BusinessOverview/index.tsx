@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa6'
 import DoubleLineChart from '../DoubleLineChart'
 import SingleLineChart from '../SingleLineChart'
-import { StarIcon } from '../Svgs/icons'
 import { SlOptionsVertical } from 'react-icons/sl'
 import { toTitleCase } from '@/helper/functions'
+import moment from 'moment'
 
-function BusinessOverview({ businessDetails, listedDeals = 0, redemptions, businessOffers = [] }: any) {
+function BusinessOverview({ businessDetails, listedDeals = 0, redemptions, businessOffers = [], thisWeekDeals = [0, 0, 0, 0, 0, 0, 0], lastWeekDeals = [0, 0, 0, 0, 0, 0, 0], monthlyRevenue }: any) {
 
     const [images, setImages] = useState([])
 
@@ -23,7 +23,7 @@ function BusinessOverview({ businessDetails, listedDeals = 0, redemptions, busin
             <div className='mt-12' >
                 {/* left business name segment */}
                 <div className='flex items-start space-x-4' >
-                    <img src="/images/cover.jpeg" alt="profile" className='w-[79px] h-[82px] rounded-full' />
+                    <img src={businessDetails?.profile_picture} alt="profile" className='w-[79px] h-[82px] rounded-full' />
                     <div className='flex items-center justify-between w-full' >
                         <div>
                             <div className='flex items-center space-x-4' >
@@ -62,7 +62,7 @@ function BusinessOverview({ businessDetails, listedDeals = 0, redemptions, busin
                             </div>
 
                             {/* customer rating */}
-                            <div className='flex items-center space-x-3' >
+                            {/* <div className='flex items-center space-x-3' >
                                 <div className='h-20 bg-[#d9d9d9] w-[7px] rounded-full relative' >
                                     <div className='bg-[#91C16F] h-[14px] w-[14px] rounded-full absolute -left-[3px]' />
                                 </div>
@@ -80,7 +80,7 @@ function BusinessOverview({ businessDetails, listedDeals = 0, redemptions, busin
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
 
                             {/* redemption */}
                             <div className='flex items-center space-x-3' >
@@ -154,11 +154,33 @@ function BusinessOverview({ businessDetails, listedDeals = 0, redemptions, busin
                                     <p className='text-[#344767] font-bold text-sm' >Social:</p>
 
                                     <div className='flex items-center space-x-4' >
-                                        <FaFacebook color='#344767' size={18} />
+                                        {
+                                            businessDetails?.facebook &&
+                                            <a href={`https://www.facebook.com/${businessDetails?.facebook}`} target='_blank' >
+                                                <FaFacebook color='#344767' size={18} />
+                                            </a>
+                                        }
 
-                                        <FaTwitter color='#16C0E8' size={18} />
+                                        {
+                                            businessDetails?.twitter &&
+                                            <a href={`https://x.com/${businessDetails?.twitter}`} target='_blank' >
+                                                <FaTwitter color='#16C0E8' size={18} />
+                                            </a>
+                                        }
 
-                                        <FaInstagram color='#344767' size={18} />
+                                        {
+                                            businessDetails?.instagram &&
+                                            <a href={`https://www.instagram.com/${businessDetails?.instagram}`} target='_blank' >
+                                                <FaInstagram color='#344767' size={18} />
+                                            </a>
+                                        }
+
+                                        {
+                                            (!businessDetails?.instagram && !businessDetails?.twitter && !businessDetails?.facebook) && <p className='text-black text-sm'>None</p>
+                                        }
+
+
+
                                     </div>
                                 </div>
                             </div>
@@ -179,12 +201,12 @@ function BusinessOverview({ businessDetails, listedDeals = 0, redemptions, busin
             <div className='flex items-start mt-24 w-full space-x-5' >
                 {/* customer satisfaction */}
                 <div className='w-[30%] h-full bg-white rounded-lg' >
-                    <DoubleLineChart />
+                    <DoubleLineChart thisWeekDeals={thisWeekDeals} lastWeekDeals={lastWeekDeals} />
                 </div>
 
                 {/* Redemptions */}
                 <div className='w-[70%] bg-white rounded-lg' >
-                    <SingleLineChart />
+                    <SingleLineChart monthlyRevenue={monthlyRevenue} />
                 </div>
             </div>
 
@@ -206,21 +228,21 @@ function BusinessOverview({ businessDetails, listedDeals = 0, redemptions, busin
                             </th>
                             <th className="p-2 text-sm font-medium text-gray-700">Ofer Expiration</th>
                             <th className="p-2 text-sm font-medium text-gray-700">Status</th>
-                            <th className="p-2 text-sm font-medium text-gray-700">Approval</th>
+                            {/* <th className="p-2 text-sm font-medium text-gray-700">Approval</th> */}
                         </tr>
                     </thead>
                     <tbody>
                         {
                             businessOffers?.map((offer: any, index: number) => (
                                 <tr key={index}>
-                                    <td className="p-2 text-black border-b">{offer.id}</td>
-                                    <td className="p-2 text-black border-b">{offer.listed_deals}</td>
-                                    <td className="p-2 text-black border-b">{offer.offer_available}</td>
-                                    <td className="p-2 text-black border-b">{offer.redemptions}</td>
-                                    <td className="p-2 text-black border-b">{offer.price}</td>
-                                    <td className="p-2 text-black border-b">{offer.offer_expiration}</td>
-                                    <td className="p-2 text-black border-b">{offer.status}</td>
-                                    <td className="p-2 text-black border-b">{offer.approval}</td>
+                                    <td className="p-2 text-center text-black text-sm border-b">{offer?.id}</td>
+                                    <td className="p-2 text-black text-sm border-b">{offer?.name}</td>
+                                    <td className="p-2 text-center text-black text-sm border-b">{offer?.number_available}</td>
+                                    <td className="p-2 text-center text-black text-sm border-b">{offer.redeemed_num}</td>
+                                    <td className="p-2 text-black text-sm border-b">€ {offer.price}</td>
+                                    <td className="p-2 text-center text-black text-sm border-b">{moment.utc(offer?.expiration).format("DD, MMM Y")}</td>
+                                    <td className="p-2 text-black text-sm border-b">{new Date() > new Date(offer?.expiration) ? "Expired" : offer?.number_available == 0 ? "Exhausted" : "Active"}</td>
+                                    {/* <td className="p-2 text-black text-sm border-b">{offer.approval}</td> */}
                                 </tr>
                             ))
                         }

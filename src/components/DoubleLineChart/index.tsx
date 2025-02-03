@@ -3,13 +3,13 @@ import { Chart as ChartJS, LineElement, PointElement, Tooltip, Legend, LinearSca
 
 ChartJS.register(LineElement, PointElement, Tooltip, Legend, LinearScale, CategoryScale);
 
-const DoubleLineChart = () => {
+const DoubleLineChart = ({ lastWeekDeals, thisWeekDeals }: any) => {
     const data = {
         labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         datasets: [
             {
                 label: 'Last Week',
-                data: [70, 60, 65, 67, 62, 75, 68],
+                data: lastWeekDeals,
                 borderColor: '#4C84D4',
                 backgroundColor: 'rgba(76, 132, 212, 0.2)',
                 tension: 0.4,
@@ -19,7 +19,7 @@ const DoubleLineChart = () => {
             },
             {
                 label: 'This Week',
-                data: [60, 65, 70, 67, 72, 78, 80],
+                data: thisWeekDeals,
                 borderColor: '#62D1A9',
                 backgroundColor: 'rgba(98, 209, 169, 0.2)',
                 tension: 0.4,
@@ -43,6 +43,11 @@ const DoubleLineChart = () => {
             legend: {
                 display: true,
                 position: 'bottom',
+                labels: {
+                    usePointStyle: true,
+                    pointStyle: 'circle',
+                    boxWidth: 8,
+                },
             },
         },
         scales: {

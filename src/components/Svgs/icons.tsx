@@ -322,3 +322,20 @@ export const StarIcon = (props: SVGProps<SVGSVGElement>) => (
         />
     </svg>
 )
+
+export const SortSvgIcon = (props: SVGProps<SVGSVGElement>) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={40}
+        height={40}
+        fill="none"
+        {...props}
+    >
+        <path
+            fill="#1E1E1E"
+            fillRule="evenodd"
+            d="M12.945 27.816a2.75 2.75 0 0 0 4.11 0l1.506-1.693a.75.75 0 1 0-1.122-.997l-1.505 1.693c-.057.064-.118.121-.184.17V13.01c.066.05.127.106.184.17l1.505 1.694a.75.75 0 1 0 1.122-.997l-1.506-1.693a2.75 2.75 0 0 0-4.11 0l-1.505 1.693a.75.75 0 1 0 1.12.997l1.506-1.694c.057-.064.118-.12.184-.17v13.98a1.258 1.258 0 0 1-.184-.17l-1.505-1.693a.75.75 0 0 0-1.121.997l1.505 1.693ZM22 13.999a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-2Zm0 10a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-2Z"
+            clipRule="evenodd"
+        />
+    </svg>
+)

@@ -1,13 +1,9 @@
 "use client"
 import Nav from '@/components/Nav'
 import { LineChart } from '@/components/Svgs/icons'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Doughnut } from 'react-chartjs-2';
-import { GrShare } from 'react-icons/gr';
 import { Chart, ArcElement } from 'chart.js';
-import { SlOptions, SlOptionsVertical } from 'react-icons/sl';
-import { CiFilter } from 'react-icons/ci';
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 // import { fetchDashboardData, fetchPagedDashboardSalesData } from '@/lib/features/dashboardSlice';
 // import { RootState } from '@/lib/store';
@@ -26,44 +22,6 @@ import {
 
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-
-const options = {
-    cutout: "70%", // Creates the donut effect
-    plugins: {
-        tooltip: { enabled: false },
-        legend: { display: false },
-    },
-};
-
-const statusClasses: any = {
-    active: "bg-green-100 text-green-700",
-    archived: "bg-red-100 text-red-700",
-    processing: "bg-blue-100 text-blue-700",
-    drafts: "bg-gray-100 text-gray-700",
-};
-
-const performing_deals = [
-    {
-        title: "Rejuvenating Winter Wellness Retreat",
-        subtitle: "Jyvaskyla Garden Hotel",
-        number: 264
-    },
-    {
-        title: "A Luxurious City Escape",
-        subtitle: "Nordic Fireside Dining",
-        number: 170
-    },
-    {
-        title: "Nordic Fireside Dining",
-        subtitle: "Arctic Breeze Restaurant",
-        number: 170
-    },
-    {
-        title: "Rejuvenating Winter Wellness Retreat",
-        subtitle: "Jyvaskyla Garden Hotel",
-        number: 264
-    }
-];
 
 const options_dough = {
     responsive: true,

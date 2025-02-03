@@ -1,18 +1,44 @@
+import { fetchBusinessesRedeemedDealsApi } from '@/apis'
 import { getPages } from '@/helper/functions'
 import moment from 'moment'
-import React, { useState } from 'react'
+import { useParams } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 
 function DealRedemption() {
 
+    const { id }: any = useParams()
+
     const [pageNumber, setPageNumber] = useState(1)
 
     const [totalPages, setTotalPages] = useState<number>(1)
-    const [fromDate, setFromDate] = useState<any>(moment().subtract(3, 'months').format('YYYY-MM-DD'))
-    const [toDate, setToDate] = useState<any>(moment().format('YYYY-MM-DD'))
+    const [fromDate, setFromDate] = useState<any>()
+    const [toDate, setToDate] = useState<any>()
+    const [redeemedDeals, setRedeemedDeals] = useState<any>([])
 
     const onPageChange = (page: number) => {
         setPageNumber(page)
+    }
+
+    useEffect(() => {
+        initialize()
+    }, [pageNumber, fromDate, toDate])
+
+    const initialize = async () => {
+        let json = {
+            business_id: id,
+            from_date: fromDate,
+            to_date: toDate,
+            pageNumber
+        }
+
+        fetchBusinessesRedeemedDealsApi(json, response => {
+
+            if (!response?.error) {
+                setTotalPages(response?.totalPages)
+                setRedeemedDeals(response?.myDeals)
+            }
+        })
     }
 
     return (
@@ -24,7 +50,7 @@ function DealRedemption() {
                     <p className='text-[#111827] font-medium text-sm' >From</p>
 
                     <div className='flex items-center space-x-1 w-full px-2 h-10 bg-white rounded-md border border-[#E5E7EB]' >
-                        <input type="date" placeholder='Select Date' value={fromDate} className='focus:outline-none w-full bg-transparent text-[#6B7280] text-sm' onChange={(event) => setFromDate(event.target.value)} />
+                        <input type="date" placeholder='Select Date' className='focus:outline-none w-full bg-transparent text-[#6B7280] text-sm' onChange={(event) => setFromDate(event.target.value)} />
                     </div>
                 </div>
 
@@ -32,11 +58,10 @@ function DealRedemption() {
                     <p className='text-[#111827] font-medium text-sm' >To</p>
 
                     <div className='flex items-center px-2 h-10 bg-white rounded-md border border-[#E5E7EB] w-full' >
-                        <input value={toDate} type="date" placeholder='Select Date' className='focus:outline-none w-full bg-transparent text-[#6B7280] text-sm' onChange={(event) => setToDate(event.target.value)} />
+                        <input type="date" placeholder='Select Date' className='focus:outline-none w-full bg-transparent text-[#6B7280] text-sm' onChange={(event) => setToDate(event.target.value)} />
                     </div>
                 </div>
 
-                {/* <button className='bg-[#A5B4FC] h-10 text-[#E0E7FF] border border-[#818CF8] rounded-md p-1 px-5' >Search</button> */}
             </div>
 
             {/* Table */}
@@ -53,7 +78,18 @@ function DealRedemption() {
                         </tr>
                     </thead>
                     <tbody>
-
+                        {
+                            redeemedDeals?.map((offer: any, index: number) => (
+                                <tr key={index}>
+                                    <td className="p-2 text-center text-black text-sm border-b">{moment.utc(offer?.createdAt).format("D MMM, Y")}</td>
+                                    <td className="p-2 text-black text-sm border-b">{offer?.user?.full_name}</td>
+                                    <td className="p-2 text-center text-black text-sm border-b">{offer?.user?.email}</td>
+                                    <td className="p-2 text-center text-black text-sm border-b">{offer?.deal?.name}</td>
+                                    <td className="p-2 text-center text-black text-sm border-b">{moment.utc(offer?.expiration).format("D MMM, Y")}</td>
+                                    <td className="p-2 text-black text-sm border-b">{offer.status}</td>
+                                </tr>
+                            ))
+                        }
                     </tbody>
                 </table>
 

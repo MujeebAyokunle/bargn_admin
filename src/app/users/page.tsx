@@ -1,8 +1,8 @@
 "use client"
-import { fetchUsersApi } from '@/apis'
+import { ExportUsersApi, fetchUsersApi } from '@/apis'
 import Nav from '@/components/Nav'
 import { ExportIcon } from '@/components/Svgs/icons'
-import { getPages } from '@/helper/functions'
+import { errorToast, getPages } from '@/helper/functions'
 import { stat } from 'fs'
 import moment from 'moment'
 import { useRouter } from 'next/navigation'
@@ -57,6 +57,21 @@ function Users() {
         setPageNumber(page)
     }
 
+    const exportUsers = async () => {
+        let json = {
+            search_text: searchText,
+            registration_date: registrationDate,
+            subscription_date: subscriptionDate,
+            status: activeTab?.toLowerCase() == "all users" ? "" : activeTab?.toLowerCase() == "inactive" ? "pending" : activeTab?.toLowerCase() == "deactivate" ? "deactivated" : activeTab.toLowerCase()
+        }
+
+        ExportUsersApi(json, response => {
+            if (response?.error) {
+                errorToast(response.message);
+            }
+        })
+    }
+
     return (
         <Nav>
             {/* FIlter section */}
@@ -97,14 +112,13 @@ function Users() {
                     </select>
                 </div>
 
-                <button className='bg-[#A5B4FC] h-8 text-[#E0E7FF] border border-[#818CF8] rounded-md p-1 px-3' >Search</button>
             </div>
 
             {/* All users header */}
             <div className='flex items-center my-8 justify-between' >
                 <p className='text-[#0A0909] font-bold text-[20px]' >All Users</p>
 
-                <div className='flex cursor-pointer p-1 px-2 items-center bg-[#6366F1] border border-[#6366F1] shadow-md rounded-md' >
+                <div onClick={exportUsers} className='flex cursor-pointer p-1 px-2 items-center bg-[#6366F1] border border-[#6366F1] shadow-md rounded-md' >
                     <ExportIcon />
                     <p className='text-white font-normal text-[15px]' >Export CSV</p>
                 </div>
@@ -162,7 +176,7 @@ function Users() {
 
                                                 <img src={user?.profile_picture || "https://via.placeholder.com/150"} className="bg-blue-200" style={{ borderRadius: 20, height: 40, width: 40, objectFit: "cover" }} />
                                                 <span className="text-sm font-medium text-[#111827]">
-                                                    {user.name}
+                                                    {user.full_name}
                                                 </span>
                                             </td>
                                             <td className="p-4 text-sm text-[#111827]">{user.email}</td>

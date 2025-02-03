@@ -1,8 +1,8 @@
 "use client";
-import { fetchBusinessesApi } from '@/apis';
+import { ExportBusinessesApi, fetchBusinessesApi } from '@/apis';
 import Nav from '@/components/Nav'
 import { ExportIcon } from '@/components/Svgs/icons';
-import { getPages } from '@/helper/functions';
+import { errorToast, getPages } from '@/helper/functions';
 import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
@@ -36,10 +36,22 @@ function Business() {
         }
 
         fetchBusinessesApi(params, response => {
-            console.log({ response })
+
             if (!response?.error) {
                 setBusinesses(response?.businesses)
                 setTotalPages(response?.totalPages)
+            }
+        })
+    }
+
+    const exportBusinesses = async () => {
+        let params = {
+
+        }
+
+        ExportBusinessesApi(params, response => {
+            if (response?.error) {
+                errorToast(response.message);
             }
         })
     }
@@ -84,15 +96,13 @@ function Business() {
                             <option value="cancelled">Cancelled</option>
                         </select>
                     </div>
-
-                    <button className='bg-[#A5B4FC] h-8 text-[#E0E7FF] border border-[#818CF8] rounded-md p-1 px-3' >Search</button>
                 </div>
 
                 {/* All users header */}
                 <div className='flex items-center my-8 justify-between' >
                     <p className='text-[#0A0909] font-bold text-[20px]' >All Business</p>
 
-                    <div className='flex cursor-pointer p-1 px-2 items-center bg-[#6366F1] border border-[#6366F1] shadow-md rounded-md' >
+                    <div onClick={exportBusinesses} className='flex cursor-pointer p-1 px-2 items-center bg-[#6366F1] border border-[#6366F1] shadow-md rounded-md' >
                         <ExportIcon />
                         <p className='text-white font-normal text-[15px]' >Export CSV</p>
                     </div>
