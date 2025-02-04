@@ -68,7 +68,7 @@ function Chat() {
                         </div>
                     </div>
                     {/* Chats section */}
-                    <div className='relative overflow-y-scroll pb-52 h-full border border-black' ref={messagesRef} >
+                    <div className='relative overflow-y-scroll pb-52 h-full' ref={messagesRef} >
                         <div className='p-2 space-y-2' >
                             {
                                 messages?.map((message: any, index: number) => (
