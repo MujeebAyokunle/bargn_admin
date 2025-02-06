@@ -204,7 +204,7 @@ function Nav({ children }: NavProps) {
                                 <MobilePhone />
                                 <span>App Management</span>
                             </li>
-                            <li className="flex px-3 py-2  items-center space-x-2 text-gray-700 text-[14px] hover:text-black">
+                            <li onClick={() => navigateFunc("/analytics")} className={`flex px-3 py-2 cursor-pointer items-center space-x-2 text-gray-700 text-[14px] hover:text-black ${pathName.includes("analytics") && "nav_active"}`}>
                                 <ChartIcon />
                                 <span>Analytics</span>
                             </li>

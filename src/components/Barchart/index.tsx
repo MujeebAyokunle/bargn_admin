@@ -11,9 +11,9 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-const BarChart = ({ data1 = [], data1_label, data2 = [], data2_label }: any) => {
+const BarChart = ({ data1 = [], dataLabels = [], data1_label, data2 = [], data2_label }: any) => {
     const data = {
-        labels: [
+        labels: dataLabels?.length > 0 ? dataLabels : [
             "Jan",
             "Feb",
             "Mar",
