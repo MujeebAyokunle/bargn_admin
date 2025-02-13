@@ -58,7 +58,7 @@ export default function Home() {
           <Image src={"images/logo.svg"} alt="logo" width={200} height={150} />
         </div>
 
-        <div className="flex justify-center gap-4 mb-4">
+        {/* <div className="flex justify-center gap-4 mb-4">
           <button className="p-2 border-2 rounded-lg border-gray-100 hover:border-gray-200">
             <Image src={"/images/google.jpg"} height={20} width={20} alt="google_login" />
           </button>
@@ -68,13 +68,13 @@ export default function Home() {
           <button className="p-2 border-2 rounded-lg border-gray-100 hover:border-gray-200">
             <Image src={"/images/linkedin.jpg"} height={20} width={20} alt="google_login" />
           </button>
-        </div>
+        </div> */}
 
-        <div className="flex items-center justify-center mb-6">
+        {/* <div className="flex items-center justify-center mb-6">
           <hr className="flex-grow border-gray-300" />
           <span className="mx-4 text-gray-500 text-sm">Or Continue With Email</span>
           <hr className="flex-grow border-gray-300" />
-        </div>
+        </div> */}
 
         <form onSubmit={signIn}>
           <div className="mb-4">

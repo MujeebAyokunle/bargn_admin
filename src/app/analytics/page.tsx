@@ -44,11 +44,11 @@ function Analytics() {
                                 <div className='flex' >
                                     <div className='w-1/2 p-8' >
                                         <p className='text-[#333] text-base font-semibold' >PlayStore</p>
-                                        <p className='text-black font-bold text-[24px]' >4/5</p>
+                                        <p className='text-black font-bold text-[24px]' >0/5</p>
                                     </div>
                                     <div className='w-1/2 p-8' >
                                         <p className='text-[#333] text-base font-semibold' >AppStore</p>
-                                        <p className='text-black font-bold text-[24px]' >4/5</p>
+                                        <p className='text-black font-bold text-[24px]' >0/5</p>
                                     </div>
                                 </div>
 
