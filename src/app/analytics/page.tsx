@@ -9,7 +9,9 @@ import React, { useEffect, useState } from 'react'
 
 function Analytics() {
 
-    const [reviews, setReviews] = useState([])
+    const [reviews, setReviews] = useState<any>([])
+    const [categoriesData, setCategoriesData] = useState<any>([])
+    const [categories, setCategories] = useState<any>([])
     const [gplayRating, setgplayRating] = useState(0)
     const [androidPercentage, setandroidPercentage] = useState(0)
     const [iosPercentage, setiosPercentage] = useState(0)
@@ -22,13 +24,21 @@ function Analytics() {
 
     const init = async () => {
         const response = await FetchAnalyticsData()
-        console.log(response)
+        // console.log(response)
         if (!response.error) {
             setReviews(response.appStoreReviewsData)
             setgplayRating(response.gplayRating)
             setandroidPercentage(response.androidPercentage)
             setiosPercentage(response.iosPercentage)
             setsentimentData(response.sentimentData)
+
+            let temp = response?.dealsByCategoryCount
+            let categoriesTemp = Object.keys(temp)
+
+            let DataArray = categoriesTemp.map((category: any) => (temp[category]))
+
+            setCategories(categoriesTemp)
+            setCategoriesData(DataArray)
         }
     }
 
@@ -101,7 +111,7 @@ function Analytics() {
                             {/* Sentiment heatmap */}
                             <div className='w-full rounded-lg border-2' style={{ borderColor: "rgba(0,0,0,0.05)" }} >
                                 <div className='flex items-end p-4 h-[445px]' >
-                                    <BarChart dataLabels={["Food & drint", "beauty", "daily services", "travel & hotels"]} />
+                                    <BarChart dataLabels={categories} data={categoriesData} />
                                 </div>
 
                                 <div style={{ backgroundColor: "rgba(0,0,0,0.05)" }} className='p-4 rounded-bl-lg rounded-br-lg' >
@@ -130,7 +140,7 @@ function Analytics() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {reviews.map((user: any, index) => (
+                                {reviews.map((user: any, index: number) => (
                                     <tr
                                         key={index}
                                         className="border-b hover:bg-gray-50 transition cursor-pointer duration-150"
