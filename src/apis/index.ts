@@ -473,3 +473,20 @@ export const fetchChatsApi = (json: any, cb: (response: any) => void) => {
             cb(error.response?.data);
         });
 }
+
+export const FetchAnalyticsData = async () => {
+    const token = localStorage.getItem("authToken");
+
+    try {
+        const response = await axiosInstance.get(`${BASE_URL_DEV}/analytics`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}

@@ -1,14 +1,36 @@
 "use client"
 
+import { FetchAnalyticsData } from '@/apis'
 import BarChart from '@/components/Barchart'
 import HeatMap from '@/components/HeatMap'
 import Nav from '@/components/Nav'
 import moment from 'moment'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 function Analytics() {
 
     const [reviews, setReviews] = useState([])
+    const [gplayRating, setgplayRating] = useState(0)
+    const [androidPercentage, setandroidPercentage] = useState(0)
+    const [iosPercentage, setiosPercentage] = useState(0)
+    const [sentimentData, setsentimentData] = useState(0)
+
+
+    useEffect(() => {
+        init()
+    }, [])
+
+    const init = async () => {
+        const response = await FetchAnalyticsData()
+        console.log(response)
+        if (!response.error) {
+            setReviews(response.appStoreReviewsData)
+            setgplayRating(response.gplayRating)
+            setandroidPercentage(response.androidPercentage)
+            setiosPercentage(response.iosPercentage)
+            setsentimentData(response.sentimentData)
+        }
+    }
 
     return (
         <Nav>
@@ -24,11 +46,11 @@ function Analytics() {
                                 <div className='flex' >
                                     <div className='w-1/2 p-8' >
                                         <p className='text-[#333] text-base font-semibold' >Android</p>
-                                        <p className='text-black font-bold text-[24px]' >20%</p>
+                                        <p className='text-black font-bold text-[24px]' >{androidPercentage}%</p>
                                     </div>
                                     <div className='w-1/2 p-8' >
                                         <p className='text-[#333] text-base font-semibold' >iOS</p>
-                                        <p className='text-black font-bold text-[24px]' >20%</p>
+                                        <p className='text-black font-bold text-[24px]' >{iosPercentage}%</p>
                                     </div>
                                 </div>
 
@@ -44,7 +66,7 @@ function Analytics() {
                                 <div className='flex' >
                                     <div className='w-1/2 p-8' >
                                         <p className='text-[#333] text-base font-semibold' >PlayStore</p>
-                                        <p className='text-black font-bold text-[24px]' >0/5</p>
+                                        <p className='text-black font-bold text-[24px]' >{gplayRating}</p>
                                     </div>
                                     <div className='w-1/2 p-8' >
                                         <p className='text-[#333] text-base font-semibold' >AppStore</p>
@@ -65,7 +87,8 @@ function Analytics() {
                             {/* Sentiment heatmap */}
                             <div className='w-full rounded-lg border-2' style={{ borderColor: "rgba(0,0,0,0.05)" }} >
                                 <div className='flex p-4' >
-                                    <HeatMap />
+
+                                    <HeatMap data={sentimentData} />
                                 </div>
 
                                 <div style={{ backgroundColor: "rgba(0,0,0,0.05)" }} className='p-4 rounded-bl-lg rounded-br-lg' >

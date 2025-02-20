@@ -2,7 +2,7 @@
 import React from 'react'
 import Chart from 'react-apexcharts';
 
-function HeatMap() {
+function HeatMap({ data }: { data: any }) {
 
     const options = {
         chart: {
@@ -40,7 +40,7 @@ function HeatMap() {
     ];
 
     return (
-        <Chart options={options as any} series={series} type="heatmap" height={400} style={{ width: "100%" }} />
+        <Chart options={options as any} series={data} type="heatmap" height={400} style={{ width: "100%" }} />
     )
 }
 
