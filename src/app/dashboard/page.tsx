@@ -327,7 +327,7 @@ function Dashboard() {
 
                                         <div className='mt-4 space-y-4'>
                                             {
-                                                cities.map((data: any, index: number) => (
+                                                dashboardData?.cityGroupedData?.map((data: any, index: number) => (
                                                     <div key={index}>
                                                         <div className='flex items-center justify-between' >
                                                             <p className='text-[#111827] text-[12px] font-medium' >{data?.city}</p>

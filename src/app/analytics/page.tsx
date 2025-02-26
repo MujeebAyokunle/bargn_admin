@@ -56,11 +56,11 @@ function Analytics() {
                                 <div className='flex' >
                                     <div className='w-1/2 p-8' >
                                         <p className='text-[#333] text-base font-semibold' >Android</p>
-                                        <p className='text-black font-bold text-[24px]' >{androidPercentage}%</p>
+                                        <p className='text-black font-bold text-[24px]' >{androidPercentage?.toFixed(1)}%</p>
                                     </div>
                                     <div className='w-1/2 p-8' >
                                         <p className='text-[#333] text-base font-semibold' >iOS</p>
-                                        <p className='text-black font-bold text-[24px]' >{iosPercentage}%</p>
+                                        <p className='text-black font-bold text-[24px]' >{iosPercentage?.toFixed(1)}%</p>
                                     </div>
                                 </div>
 

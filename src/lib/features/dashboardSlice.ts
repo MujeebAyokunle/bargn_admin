@@ -14,7 +14,8 @@ export interface userState {
 const initialState: userState = {
     dashboardData: {
         mobile_insights: {},
-        redeemed_categories_total_percentage: {}
+        redeemed_categories_total_percentage: {},
+        cityGroupedData: [],
     },
     dashboardSales: [],
     loading: false,
@@ -29,7 +30,7 @@ export const fetchDashboardData = createAsyncThunk("dashboard/fetch", async () =
                 Authorization: `Bearer ${token}`
             }
         })
-        console.log(response?.data)
+
         return response?.data || response
     } catch (error: any) {
         console.log("fetch dashboard data error", error.message)
