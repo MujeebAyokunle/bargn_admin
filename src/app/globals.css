@@ -15,7 +15,7 @@
 }
 
 body {
-  color: var(--foreground);  
+  color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -26,4 +26,14 @@ body {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   border-left: 3px solid #2c2c2c;
+}
+
+.apexcharts-menu-item {
+  color: black !important;
+  /* Change text color */
+}
+
+.apexcharts-menu-item:hover {
+  background-color: rgba(0, 0, 255, 0.1);
+  /* Light blue on hover */
 }

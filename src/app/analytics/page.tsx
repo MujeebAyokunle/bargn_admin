@@ -3,6 +3,7 @@
 import { FetchAnalyticsData } from '@/apis'
 import BarChart from '@/components/Barchart'
 import HeatMap from '@/components/HeatMap'
+import LineChart from '@/components/LineChart'
 import Nav from '@/components/Nav'
 import moment from 'moment'
 import React, { useEffect, useState } from 'react'
@@ -12,6 +13,7 @@ function Analytics() {
     const [reviews, setReviews] = useState<any>([])
     const [categoriesData, setCategoriesData] = useState<any>([])
     const [categories, setCategories] = useState<any>([])
+    const [dealsBySubCategoryCount, setDealsBySubCategoryCount] = useState<any>([])
     const [gplayRating, setgplayRating] = useState(0)
     const [androidPercentage, setandroidPercentage] = useState(0)
     const [iosPercentage, setiosPercentage] = useState(0)
@@ -31,6 +33,7 @@ function Analytics() {
             setandroidPercentage(response.androidPercentage)
             setiosPercentage(response.iosPercentage)
             setsentimentData(response.sentimentData)
+            setDealsBySubCategoryCount(response?.dealsBySubCategoryCount)
 
             let temp = response?.dealsByCategoryCount
             let categoriesTemp = Object.keys(temp)
@@ -41,6 +44,8 @@ function Analytics() {
             setCategoriesData(DataArray)
         }
     }
+
+    console.log(dealsBySubCategoryCount)
 
     return (
         <Nav>
@@ -121,6 +126,19 @@ function Analytics() {
                         </div>
                     </div>
 
+
+                    <div className='w-[100%] mt-14 mb-6 rounded-lg' >
+                        {/* Acquisition channel */}
+                        <div className='w-full rounded-lg border-2' style={{ borderColor: "rgba(0,0,0,0.05)" }} >
+                            <div className='w-full' >
+                                <LineChart dataObject={dealsBySubCategoryCount} />
+                            </div>
+
+                            <div style={{ backgroundColor: "rgba(0,0,0,0.05)" }} className='p-4 rounded-bl-lg rounded-br-lg' >
+                                <p className='text-[#333] text-sm font-semibold' >Sub Categories Revenue Retention</p>
+                            </div>
+                        </div>
+                    </div>
 
                     {/* App store and play store reviews */}
                     <div className='p-4 border mt-10 bg-white border-[#D9D9D9] rounded-lg'>

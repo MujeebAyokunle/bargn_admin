@@ -13,6 +13,7 @@
     "apexcharts": "^4.4.0",
     "axios": "^1.7.9",
     "chart.js": "^4.4.7",
+    "chartjs-chart-matrix": "^2.0.1",
     "formik": "^2.4.6",
     "fs": "^0.0.1-security",
     "google-play-scraper": "^10.0.1",
