@@ -25,7 +25,7 @@ const LineChart = ({ dataObject = {} }: any) => {
     const lineChartSeries = [{ name: "Value", data: values }];
 
     return (
-        <Chart options={lineChartOptions} series={lineChartSeries} type="line" height={400} />
+        <Chart options={lineChartOptions as any} series={lineChartSeries as any} type="line" height={400} />
     );
 };
 
