@@ -66,8 +66,25 @@ function Analytics() {
                                     <ReactMarkdown
                                         components={{
                                             p: ({ node, ...props }) => <p style={{ color: ColorSchema.black }} {...props} />,
-                                            strong: ({ node, ...props }) => <strong style={{ color: ColorSchema.black }} {...props} />,
+                                            strong: ({ node, ...props }) => <strong style={{ color: ColorSchema.black, fontWeight: 600 }} {...props} />,
                                             li: ({ node, ...props }) => <li style={{ color: ColorSchema.black }} {...props} />,
+                                            h1: ({ node, ...props }) => <h1 style={{ color: ColorSchema.black, fontWeight: 600 }} {...props} />,
+                                            h2: ({ node, ...props }) => <h2 style={{ color: ColorSchema.black, fontWeight: 600 }} {...props} />,
+                                            h3: ({ node, ...props }) => <h3 style={{ color: ColorSchema.black, fontWeight: 600 }} {...props} />,
+                                            h4: ({ node, ...props }) => <h4 style={{ color: ColorSchema.black, fontWeight: 600 }} {...props} />,
+                                            h5: ({ node, ...props }) => <h5 style={{ color: ColorSchema.black }} {...props} />,
+                                            h6: ({ node, ...props }) => <h6 style={{ color: ColorSchema.black }} {...props} />,
+                                            em: ({ node, ...props }) => <em style={{ color: ColorSchema.black }} {...props} />,
+                                            blockquote: ({ node, ...props }) => <blockquote style={{ color: ColorSchema.black }} {...props} />,
+                                            code: ({ node, ...props }) => <code style={{ color: ColorSchema.black }} {...props} />,
+                                            pre: ({ node, ...props }) => <pre style={{ color: ColorSchema.black }} {...props} />,
+                                            ul: ({ node, ...props }) => <ul style={{ color: ColorSchema.black }} {...props} />,
+                                            ol: ({ node, ...props }) => <ol style={{ color: ColorSchema.black }} {...props} />,
+                                            table: ({ node, ...props }) => <table style={{ color: ColorSchema.black }} {...props} />,
+                                            tr: ({ node, ...props }) => <tr style={{ color: ColorSchema.black }} {...props} />,
+                                            td: ({ node, ...props }) => <td style={{ color: ColorSchema.black }} {...props} />,
+                                            th: ({ node, ...props }) => <th style={{ color: ColorSchema.black }} {...props} />,
+                                            a: ({ node, ...props }) => <a style={{ color: ColorSchema.black }} {...props} />,
                                         }}
                                     >
                                         {userActivityInsight}
